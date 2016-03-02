@@ -5,6 +5,7 @@
 #include <climits>
 #include "genetic.h"
 
+//Generate an initial population of random individuals
 unsigned int* initialPopulation(){
     unsigned int *population = (unsigned int*) malloc(POP_SIZE*sizeof(unsigned int));
     if (!population){
@@ -17,12 +18,16 @@ unsigned int* initialPopulation(){
     return population;
 }
 
+//Calculate the fitness for a whole population
 void calculateFitnesses(unsigned int* population, unsigned char* fitnesses){
     for (int i = 0; i < POP_SIZE; i++){
         fitnesses[i] = fitness(300, population[i]);
     }
 }
 
+//Calculate the fitness for an individual
+//Fitness is determined by number of correct bits
+//TODO Come up with a better fitness function?
 unsigned char fitness(unsigned int target, unsigned int x) {
     unsigned int match = target ^ x;
     unsigned char fitness_score = 8*sizeof(unsigned int);
@@ -35,22 +40,22 @@ unsigned char fitness(unsigned int target, unsigned int x) {
     return fitness_score;
 }
 
+//Reproduction between two individuals
+//Sexy time~
 unsigned int reproduce(unsigned int x, unsigned int y){
     int n = sizeof(unsigned int) * 8 - 1;
     // Random number between 1 and 31
     int c = rand() % n + 1;
-
     unsigned int mask = (1 << c) - 1;
-//    std::cout << "Parents: " << x << "   " << y << std::endl;
-//    std::cout << "c: " << c << " mask: " << mask << std::endl;
 
     unsigned int xpart = x & mask;
     unsigned int ypart = y & ~mask;
-//    std::cout << "x: " << xpart << " y: " << ypart << std::endl;
-//    std::cout << "offspring: " << xpart + ypart << std::endl << std::endl;
+
     return xpart + ypart;
 }
 
+//Randomly select a suitable parent based on each individual's fitness
+//TODO Clean up
 unsigned int selectParent(unsigned int* population, unsigned char* fitnesses){
     unsigned int max_rand = 0;
     for (int i = 0; i < POP_SIZE; i++){
@@ -67,11 +72,10 @@ unsigned int selectParent(unsigned int* population, unsigned char* fitnesses){
     return population[POP_SIZE-1];
 }
 
+//Mutate a child
+//Chance of mutation is determined by MUTATION_CHANCE
+//Mutation is performed by flipping a random bit
 unsigned int mutate(unsigned int individual){
-    unsigned int mask = 0;
-    for (int i = 0; i < 8*sizeof(unsigned int); i++){
-        o
-    }
     unsigned char mutation = rand() % 100;
     if (mutation < MUTATION_CHANCE){
         int n = sizeof(int) * 8 - 1;
@@ -85,6 +89,7 @@ unsigned int mutate(unsigned int individual){
 }
 
 //TODO
+//Determine when the population is fit enough to stop
 bool fitEnough(unsigned int* population){
     return false;
 }
