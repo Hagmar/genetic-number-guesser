@@ -20,7 +20,7 @@ unsigned int* initialPopulation(){
 }
 
 //Calculate the fitness for a whole population
-void calculateFitnesses(unsigned int* population, unsigned char* fitnesses){
+void calculateFitnesses(unsigned int* population, unsigned int* fitnesses){
     for (int i = 0; i < POP_SIZE; i++){
         fitnesses[i] = fitness(300, population[i]);
     }
@@ -29,16 +29,17 @@ void calculateFitnesses(unsigned int* population, unsigned char* fitnesses){
 //Calculate the fitness for an individual
 //Fitness is determined by number of correct bits
 //TODO Come up with a better fitness function?
-unsigned char fitness(unsigned int target, unsigned int x) {
+unsigned int fitness(unsigned int target, unsigned int x) {
     unsigned int match = target ^ x;
-    unsigned char fitness_score = 8*sizeof(unsigned int);
+    unsigned int fitness_score = 8*sizeof(unsigned int);
     while (match){
         if (match & 1){
             fitness_score -= 1;
         }
         match >>= 1;
     }
-    return fitness_score;
+    //Squaring fitness score to make successfull individuals more likely to survive
+    return fitness_score*fitness_score;
 }
 
 //Reproduction between two individuals
@@ -57,7 +58,7 @@ unsigned int reproduce(unsigned int x, unsigned int y){
 
 //Randomly select a suitable parent based on each individual's fitness
 //TODO Clean up
-unsigned int selectParent(unsigned int* population, unsigned char* fitnesses){
+unsigned int selectParent(unsigned int* population, unsigned int* fitnesses){
     unsigned int max_rand = 0;
     for (int i = 0; i < POP_SIZE; i++){
         max_rand += fitnesses[i];
@@ -66,7 +67,7 @@ unsigned int selectParent(unsigned int* population, unsigned char* fitnesses){
     unsigned int fitness_sum = 0;
     for (int i = 0; i < POP_SIZE; i++){
         fitness_sum += fitnesses[i];
-        if (choice <= fitness_sum){
+        if (choice < fitness_sum){
             return population[i];
         }
     }
@@ -111,13 +112,13 @@ void printPopulation(unsigned int* population){
     }
     std::cout << std::endl;
 }
-void printFitnesses(unsigned char* population){
+void printFitnesses(unsigned int* fitnesses){
     for (int i = 0; i < POP_SIZE; i++){
-        std::cout << (unsigned int) population[i] << " ";
+        std::cout << fitnesses[i] << " ";
     }
     std::cout << std::endl;
 }
-void printMostFitBin(unsigned int* population, unsigned char* fitnesses){
+void printMostFitBin(unsigned int* population, unsigned int* fitnesses){
     int i;
     char max_fit = 0;
     for (i = 0; i < POP_SIZE; i++){

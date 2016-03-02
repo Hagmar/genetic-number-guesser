@@ -4,7 +4,7 @@
 int main()
 {
     unsigned int *population = initialPopulation();
-    unsigned char *fitnesses = (unsigned char*) malloc(POP_SIZE*sizeof(unsigned char));
+    unsigned int *fitnesses = (unsigned int*) malloc(POP_SIZE*sizeof(unsigned int));
 
     unsigned int parent_x, parent_y, child;
 
