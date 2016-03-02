@@ -15,5 +15,6 @@ bool fitEnough(unsigned int*);
 
 void printPopulation(unsigned int*);
 void printFitnesses(unsigned char*);
+void printMostFitBin(unsigned int*, unsigned char*);
 
 #endif

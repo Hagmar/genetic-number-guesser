@@ -23,6 +23,7 @@ int main()
         calculateFitnesses(population, fitnesses);
         printPopulation(population);
         printFitnesses(fitnesses);
+        printMostFitBin(population, fitnesses);
 
         for (int i = 0; i < POP_SIZE; i++){
         //TODO Parents can't be same individual?

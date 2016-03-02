@@ -3,6 +3,7 @@
 #include <time.h>
 #include <iostream>
 #include <climits>
+#include <bitset>
 #include "genetic.h"
 
 //Generate an initial population of random individuals
@@ -115,4 +116,16 @@ void printFitnesses(unsigned char* population){
         std::cout << (unsigned int) population[i] << " ";
     }
     std::cout << std::endl;
+}
+void printMostFitBin(unsigned int* population, unsigned char* fitnesses){
+    int i;
+    char max_fit = 0;
+    for (i = 0; i < POP_SIZE; i++){
+        if (fitnesses[max_fit] <= fitnesses[i]){
+            max_fit = i;
+        }
+    }
+
+    std::bitset<32> x(population[max_fit]);
+    std::cout << x << " - " << population[max_fit] <<" ("<<(unsigned int)fitnesses[max_fit]<<")"<< std::endl;
 }
