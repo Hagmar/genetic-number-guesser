@@ -76,16 +76,26 @@ unsigned int selectParent(unsigned int* population, unsigned char* fitnesses){
 //Chance of mutation is determined by MUTATION_CHANCE
 //Mutation is performed by flipping a random bit
 unsigned int mutate(unsigned int individual){
-    unsigned char mutation = rand() % 100;
-    if (mutation < MUTATION_CHANCE){
-        int n = sizeof(int) * 8 - 1;
-        // Random number between 1 and 31
-        int c = rand() % n;
-
-        unsigned int mask = (1 << c);
-        return individual ^ mask;
+    unsigned int mask = 0;
+    unsigned char mutation;
+    for (int i = 0; i < 8*sizeof(unsigned int); i++){
+        mutation = rand() % 100;
+        if (mutation < MUTATION_CHANCE){
+            mask += (1 << i);
+        }
     }
-    return individual;
+
+    return individual ^ mask;
+
+//    if (mutation < MUTATION_CHANCE){
+//        int n = sizeof(int) * 8 - 1;
+//        // Random number between 1 and 31
+//        int c = rand() % n;
+//
+//        unsigned int mask = (1 << c);
+//        return individual ^ mask;
+//    }
+//    return individual;
 }
 
 //TODO

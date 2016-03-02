@@ -2,7 +2,8 @@
 #define GENETIC_H
 
 #define POP_SIZE 10
-#define MUTATION_CHANCE 1
+//2% chance for each individual bit to mutate
+#define MUTATION_CHANCE 2
 
 unsigned int* initialPopulation();
 void calculateFitnesses(unsigned int*, unsigned char*);
